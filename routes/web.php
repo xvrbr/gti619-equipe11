@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\Auth\LoginController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,11 +15,15 @@ use App\Http\Controllers\ClientController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Authentication Routes
+Route::get('/', [LoginController::class, 'showLoginForm']);
+Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::resource('client', ClientController::class);
-Route::get('client/{id}/edit', 'ClientController@edit')->name('client.edit');
-Route::put('client/{id}', 'ClientController@update')->name('client.update');
-Route::delete('client/{id}', 'ClientController@destroy')->name('client.destroy');
+// Protected Routes
+Route::middleware(['auth'])->group(function () {
+    Route::resource('client', ClientController::class);
+    Route::get('client/{id}/edit', [ClientController::class, 'edit'])->name('client.edit');
+    Route::put('client/{id}', [ClientController::class, 'update'])->name('client.update');
+    Route::delete('client/{id}', [ClientController::class, 'destroy'])->name('client.destroy');
+});

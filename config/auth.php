@@ -20,6 +20,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Username Authentication Field
+    |--------------------------------------------------------------------------
+    |
+    | This option controls which database field should be used as the username
+    | field for authentication.
+    |
+    */
+    'username' => 'username',
+
+    /*
+    |--------------------------------------------------------------------------
     | Authentication Guards
     |--------------------------------------------------------------------------
     |
