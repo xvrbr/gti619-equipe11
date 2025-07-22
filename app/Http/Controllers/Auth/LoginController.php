@@ -35,7 +35,18 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/client');
+            // Redirect based on user role
+            $user = Auth::user();
+            switch($user->role) {
+                case 'administrateur':
+                    return redirect()->route('admin.security');
+                case 'prepose_residentiel':
+                    return redirect()->route('clients.residential');
+                case 'prepose_affaire':
+                    return redirect()->route('clients.business');
+                default:
+                    return redirect('/');
+            }
         }
 
         throw ValidationException::withMessages([

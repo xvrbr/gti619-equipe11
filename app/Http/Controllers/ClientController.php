@@ -8,6 +8,28 @@ use App\Models\Client;
 class ClientController extends Controller
 {
     /**
+     * Display a listing of residential clients.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function residential()
+    {
+        $clients = Client::where('type', 'residentiel')->get();
+        return view('clients.residential', compact('clients'));
+    }
+
+    /**
+     * Display a listing of business clients.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function business()
+    {
+        $clients = Client::where('type', 'affaire')->get();
+        return view('clients.business', compact('clients'));
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
