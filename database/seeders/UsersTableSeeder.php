@@ -15,10 +15,28 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        // Create Administrator
         User::create([
-            'name' => 'Admin User',
+            'name' => 'Administrateur',
             'username' => 'admin',
             'password' => Hash::make('password'),
+            'role' => 'administrateur'
+        ]);
+
+        // Create Residential Client Agent
+        User::create([
+            'name' => 'Utilisateur1',
+            'username' => 'user1',
+            'password' => Hash::make('password'),
+            'role' => 'prepose_residentiel'
+        ]);
+
+        // Create Business Client Agent
+        User::create([
+            'name' => 'Utilisateur2',
+            'username' => 'user2',
+            'password' => Hash::make('password'),
+            'role' => 'prepose_affaire'
         ]);
     }
 }
