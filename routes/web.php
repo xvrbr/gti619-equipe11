@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\SecurityController;
+use App\Http\Controllers\Admin\UserManagementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,8 +26,16 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::middleware(['auth'])->group(function () {
     // Admin Only Routes
     Route::middleware(['role:administrateur'])->group(function () {
+        // Security Settings
         Route::get('/admin/security', [SecurityController::class, 'index'])->name('admin.security');
         Route::post('/admin/security', [SecurityController::class, 'update'])->name('admin.security.update');
+
+        // User Management
+        Route::get('/admin/users', [UserManagementController::class, 'index'])->name('admin.users');
+        Route::post('/admin/users/{user}/reset-password', [UserManagementController::class, 'resetPassword'])
+            ->name('admin.users.reset-password');
+        Route::post('/admin/users/{user}/toggle-lock', [UserManagementController::class, 'toggleLock'])
+            ->name('admin.users.toggle-lock');
     });
 
     // Residential Client Routes (Admin and Residential Agent)
