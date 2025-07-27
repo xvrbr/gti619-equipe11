@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -43,4 +44,34 @@ class User extends Authenticatable
         'password_changed_at' => 'datetime',
         'locked_until' => 'datetime',
     ];
+
+    /**
+     * Relation avec l'historique des mots de passe
+     */
+    public function passwordHistory()
+    {
+        return $this->hasMany(PasswordHistory::class);
+    }
+
+    /**
+     * Ajoute un mot de passe à l'historique
+     */
+    public function addToPasswordHistory(string $password)
+    {
+        $this->passwordHistory()->create([
+            'password' => Hash::make($password)
+        ]);
+
+        // Supprimer les anciens mots de passe qui dépassent la limite
+        $historyCount = (int)SystemSetting::getValue(SystemSetting::PASSWORD_HISTORY_COUNT, 3);
+        $oldPasswords = $this->passwordHistory()
+            ->latest()
+            ->skip($historyCount)
+            ->take(100)  // Limite de sécurité
+            ->get();
+
+        foreach ($oldPasswords as $old) {
+            $old->delete();
+        }
+    }
 }

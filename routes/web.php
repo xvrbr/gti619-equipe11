@@ -28,7 +28,8 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:administrateur'])->group(function () {
         // Security Settings
         Route::get('/admin/security', [SecurityController::class, 'index'])->name('admin.security');
-        Route::post('/admin/security', [SecurityController::class, 'update'])->name('admin.security.update');
+        Route::post('/admin/security/login', [SecurityController::class, 'updateLoginSettings'])->name('admin.security.login');
+        Route::post('/admin/security/password', [SecurityController::class, 'updatePasswordSettings'])->name('admin.security.password');
 
         // User Management
         Route::get('/admin/users', [UserManagementController::class, 'index'])->name('admin.users');
