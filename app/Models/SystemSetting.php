@@ -19,7 +19,6 @@ class SystemSetting extends Model
     const PASSWORD_REQUIRE_LOWERCASE = 'password_require_lowercase';
     const PASSWORD_REQUIRE_NUMBERS = 'password_require_numbers';
     const PASSWORD_REQUIRE_SPECIAL = 'password_require_special';
-    const PASSWORD_MIN_CHARACTER_CLASSES = 'password_min_character_classes';
 
     /**
      * Récupère la valeur d'un paramètre

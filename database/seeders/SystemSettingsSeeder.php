@@ -51,11 +51,6 @@ class SystemSettingsSeeder extends Seeder
                 'value' => 'false',
                 'description' => 'Exiger des caractères spéciaux'
             ],
-            [
-                'key' => SystemSetting::PASSWORD_MIN_CHARACTER_CLASSES,
-                'value' => '1',
-                'description' => 'Nombre minimum de classes de caractères requises'
-            ],
         ];
 
         foreach ($settings as $setting) {

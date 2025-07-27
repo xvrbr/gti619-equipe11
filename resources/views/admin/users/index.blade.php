@@ -79,15 +79,39 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                         </div>
                                         <div class="modal-body">
+                                            @if ($errors->any())
+                                                <div class="alert alert-danger">
+                                                    <ul class="mb-0">
+                                                        @foreach ($errors->all() as $error)
+                                                            <li>{{ $error }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            @endif
                                             <div class="form-group">
                                                 <label for="new_password{{ $user->id }}">Nouveau mot de passe</label>
-                                                <input type="password" class="form-control"
+                                                <input type="password" class="form-control @error('new_password') is-invalid @enderror"
                                                        id="new_password{{ $user->id }}"
-                                                       name="new_password" required
-                                                       minlength="8">
-                                                <small class="form-text text-muted">
-                                                    Le mot de passe doit contenir au moins 8 caractères.
-                                                </small>
+                                                       name="new_password" required>
+                                                <div class="form-text">
+                                                    <strong>Le mot de passe doit respecter les règles suivantes :</strong>
+                                                    <ul class="mb-0">
+                                                        <li>Au moins {{ \App\Models\SystemSetting::getValue('password_min_length', 8) }} caractères</li>
+                                                        @if(\App\Models\SystemSetting::getValue('password_require_uppercase', 'false') === 'true')
+                                                            <li>Au moins une lettre majuscule</li>
+                                                        @endif
+                                                        @if(\App\Models\SystemSetting::getValue('password_require_lowercase', 'false') === 'true')
+                                                            <li>Au moins une lettre minuscule</li>
+                                                        @endif
+                                                        @if(\App\Models\SystemSetting::getValue('password_require_numbers', 'false') === 'true')
+                                                            <li>Au moins un chiffre</li>
+                                                        @endif
+                                                        @if(\App\Models\SystemSetting::getValue('password_require_special', 'false') === 'true')
+                                                            <li>Au moins un caractère spécial</li>
+                                                        @endif
+                                                        <li>Ne pas être l'un des {{ \App\Models\SystemSetting::getValue('password_history_count', 3) }} derniers mots de passe</li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -105,4 +129,19 @@
         </div>
     </div>
 </div>
+
+@if ($errors->any())
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Trouver le dernier modal ouvert ou celui qui contient des erreurs
+    var modalId = document.querySelector('.modal.show')?.id ||
+                 document.querySelector('.is-invalid')?.closest('.modal')?.id;
+    if (modalId) {
+        var modal = new bootstrap.Modal(document.getElementById(modalId));
+        modal.show();
+    }
+});
+</script>
+@endif
+
 @endsection

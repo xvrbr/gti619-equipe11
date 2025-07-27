@@ -112,23 +112,6 @@
                     </div>
                 </div>
 
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="password_min_character_classes">Nombre minimum de classes de caractères</label>
-                            <input type="number" class="form-control" id="password_min_character_classes"
-                                   name="password_min_character_classes"
-                                   value="{{ $settings['password_min_character_classes'] }}" min="1" max="4">
-                            @error('password_min_character_classes')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                            <small class="form-text text-muted">
-                                Nombre minimum de types de caractères différents requis (entre 1 et 4)
-                            </small>
-                        </div>
-                    </div>
-                </div>
-
                 <button type="submit" class="btn btn-primary">Enregistrer la politique de mot de passe</button>
             </form>
         </div>

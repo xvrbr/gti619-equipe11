@@ -24,7 +24,6 @@ class SecurityController extends Controller
             'password_require_lowercase' => SystemSetting::getValue(SystemSetting::PASSWORD_REQUIRE_LOWERCASE, 'false'),
             'password_require_numbers' => SystemSetting::getValue(SystemSetting::PASSWORD_REQUIRE_NUMBERS, 'false'),
             'password_require_special' => SystemSetting::getValue(SystemSetting::PASSWORD_REQUIRE_SPECIAL, 'false'),
-            'password_min_character_classes' => SystemSetting::getValue(SystemSetting::PASSWORD_MIN_CHARACTER_CLASSES, 1),
         ];
 
         return view('admin.security.index', compact('settings'));
@@ -57,7 +56,6 @@ class SecurityController extends Controller
         $request->validate([
             'password_min_length' => 'required|integer|min:1',
             'password_history_count' => 'required|integer|min:1',
-            'password_min_character_classes' => 'required|integer|min:1|max:4',
         ]);
 
         SystemSetting::setValue(
@@ -94,12 +92,6 @@ class SecurityController extends Controller
             SystemSetting::PASSWORD_REQUIRE_SPECIAL,
             $request->has('password_require_special') ? 'true' : 'false',
             'Exiger des caractères spéciaux'
-        );
-
-        SystemSetting::setValue(
-            SystemSetting::PASSWORD_MIN_CHARACTER_CLASSES,
-            $request->password_min_character_classes,
-            'Nombre minimum de classes de caractères requises'
         );
 
         return redirect()->back()->with('success', 'Politique de mot de passe mise à jour avec succès.');
