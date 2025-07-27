@@ -24,6 +24,9 @@
                                 <a class="nav-link" href="{{ route('admin.security') }}">Security Settings</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.security-logs.index') }}">Security Logs</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('clients.residential') }}">Residential Clients</a>
                             </li>
                             <li class="nav-item">

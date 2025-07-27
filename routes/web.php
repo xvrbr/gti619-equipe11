@@ -45,6 +45,10 @@ Route::middleware(['auth'])->group(function () {
             ->name('admin.users.reset-password');
         Route::post('/admin/users/{user}/toggle-lock', [UserManagementController::class, 'toggleLock'])
             ->name('admin.users.toggle-lock');
+
+
+        Route::get('/admin/security-logs', [App\Http\Controllers\Admin\SecurityLogController::class, 'index'])
+            ->name('admin.security-logs.index');
     });
 
     // Residential Client Routes (Admin and Residential Agent)

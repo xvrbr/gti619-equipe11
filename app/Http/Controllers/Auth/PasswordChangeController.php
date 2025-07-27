@@ -9,6 +9,7 @@ use App\Models\SystemSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use App\Models\SecurityLog;
 
 class PasswordChangeController extends Controller
 {
@@ -46,6 +47,8 @@ class PasswordChangeController extends Controller
         $user->password_changed_at = Carbon::now();
         $user->force_password_change = false;
         $user->save();
+
+        SecurityLog::logPasswordChange($user);
 
         return redirect()->intended('/')
             ->with('success', 'Votre mot de passe a été changé avec succès.');

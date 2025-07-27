@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\SystemSetting;
 use App\Models\User;
+use App\Models\SecurityLog;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -54,6 +55,8 @@ class LoginController extends Controller
                 $user->locked_until = null;
                 $user->save();
 
+                SecurityLog::logLoginSuccess($user);
+
                 $request->session()->regenerate();
 
                 // Redirection basée sur le rôle
@@ -84,6 +87,7 @@ class LoginController extends Controller
             }
 
             $user->save();
+            SecurityLog::logLoginFailure($credentials['username']);
 
             throw ValidationException::withMessages([
                 'username' => [$message],
