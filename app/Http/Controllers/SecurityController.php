@@ -24,6 +24,7 @@ class SecurityController extends Controller
             'password_require_lowercase' => SystemSetting::getValue(SystemSetting::PASSWORD_REQUIRE_LOWERCASE, 'false'),
             'password_require_numbers' => SystemSetting::getValue(SystemSetting::PASSWORD_REQUIRE_NUMBERS, 'false'),
             'password_require_special' => SystemSetting::getValue(SystemSetting::PASSWORD_REQUIRE_SPECIAL, 'false'),
+            'password_expiration_days' => SystemSetting::getValue(SystemSetting::PASSWORD_EXPIRATION_DAYS, 90),
         ];
 
         return view('admin.security.index', compact('settings'));
@@ -56,6 +57,7 @@ class SecurityController extends Controller
         $request->validate([
             'password_min_length' => 'required|integer|min:1',
             'password_history_count' => 'required|integer|min:1',
+            'password_expiration_days' => 'required|integer|min:0',
         ]);
 
         SystemSetting::setValue(
@@ -68,6 +70,12 @@ class SecurityController extends Controller
             SystemSetting::PASSWORD_HISTORY_COUNT,
             $request->password_history_count,
             'Nombre de mots de passe à mémoriser'
+        );
+
+        SystemSetting::setValue(
+            SystemSetting::PASSWORD_EXPIRATION_DAYS,
+            $request->password_expiration_days,
+            'Nombre de jours avant expiration du mot de passe'
         );
 
         SystemSetting::setValue(

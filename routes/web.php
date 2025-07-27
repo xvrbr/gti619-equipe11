@@ -22,6 +22,14 @@ Route::get('/', [LoginController::class, 'showLoginForm']);
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+// Routes pour le changement de mot de passe
+Route::middleware(['auth'])->group(function () {
+    Route::get('/password/change', [App\Http\Controllers\Auth\PasswordChangeController::class, 'showChangeForm'])
+        ->name('password.change');
+    Route::post('/password/change', [App\Http\Controllers\Auth\PasswordChangeController::class, 'change'])
+        ->name('password.change.submit');
+});
+
 // Protected Routes
 Route::middleware(['auth'])->group(function () {
     // Admin Only Routes

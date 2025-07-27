@@ -75,6 +75,23 @@
                 </div>
 
                 <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="password_expiration_days">Expiration du mot de passe (jours)</label>
+                            <input type="number" class="form-control" id="password_expiration_days"
+                                   name="password_expiration_days"
+                                   value="{{ $settings['password_expiration_days'] }}" min="0">
+                            @error('password_expiration_days')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                            <small class="form-text text-muted">
+                                Nombre de jours avant l'expiration du mot de passe. Mettre 0 pour désactiver l'expiration.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
                     <div class="col-12">
                         <label class="mb-2">Classes de caractères requises :</label>
                         <div class="form-check">

@@ -51,6 +51,11 @@ class SystemSettingsSeeder extends Seeder
                 'value' => 'false',
                 'description' => 'Exiger des caractères spéciaux'
             ],
+            [
+                'key' => SystemSetting::PASSWORD_EXPIRATION_DAYS,
+                'value' => '90',
+                'description' => 'Nombre de jours avant expiration du mot de passe (0 pour désactiver)'
+            ],
         ];
 
         foreach ($settings as $setting) {
