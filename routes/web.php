@@ -22,6 +22,13 @@ Route::get('/', [LoginController::class, 'showLoginForm']);
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+// Route pour la confirmation du mot de passe (accessible à tout utilisateur connecté)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/password/confirm', [App\Http\Controllers\Auth\ConfirmPasswordController::class, 'showConfirmForm'])
+        ->name('password.confirm');
+    Route::post('/password/confirm', [App\Http\Controllers\Auth\ConfirmPasswordController::class, 'confirm']);
+});
+
 // Routes pour le changement de mot de passe
 Route::middleware(['auth', 'password.confirm'])->group(function () {
     Route::get('/password/change', [App\Http\Controllers\Auth\PasswordChangeController::class, 'showChangeForm'])
