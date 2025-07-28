@@ -32,6 +32,8 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('clients.business') }}">Business Clients</a>
                             </li>
+                            
+                                    
                         @elseif(auth()->user()->role === 'prepose_residentiel')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('clients.residential') }}">Residential Clients</a>
@@ -42,11 +44,15 @@
                             </li>
                         @endif
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('password.change') }}">Change Password</a>
+                        </li>
+                        <li class="nav-item">
                             <form method="POST" action="{{ route('logout') }}" style="display:inline;">
                                 @csrf
                                 <button type="submit" class="nav-link btn btn-link" style="display:inline; padding:0;">Logout</button>
                             </form>
                         </li>
+                        
                     @endauth
                 </ul>
                 @auth
