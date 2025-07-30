@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Client;
+use illuminate\Support\Facades\Crypt;
 
 class ClientController extends Controller
 {
@@ -66,6 +67,10 @@ class ClientController extends Controller
         'last_name'     =>  $request->get('last_name')
     ]);
     $client->save();
+    
+    // Chiffrer les informations sensibles avant de les stocker
+    session(['secret_info' => Crypt::encryptString($client->first_name . ' ' . $client->last_name)]);
+
     return redirect()->route('client.index')->with('success', 'Client ajouté');
     }
 
@@ -77,7 +82,13 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        //
+        //Récupération et déchiffrement
+        $info = null;
+        if (session()->has('secret_info')) {
+        $info = Crypt::decryptString(session('secret_info'));
+        }
+    
+        return view('client.show', compact('info'));
     }
 
     /**
